@@ -1,0 +1,1 @@
+FROM ascdc/jdk8
