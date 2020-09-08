@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+ master-1:
+  container_name: master-1
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  command: redis-server /etc/usr/local/redis.conf
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/master1/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/master1/redis.log:/usr/local/redis/logs/redis-server.log
+
+ master-2:
+  container_name: master-2
+  command: redis-server /etc/usr/local/redis.conf
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/master2/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/master2/redis.log:/usr/local/redis/logs/redis-server.log
+
+ master-3:
+  container_name: master-3
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  command: redis-server /etc/usr/local/redis.conf
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/master3/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/master3/redis.log:/usr/local/redis/logs/redis-server.log
+
+ slave-1:
+  container_name: slave-1
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  command: redis-server /etc/usr/local/redis.conf
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/slave1/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/slave1/redis.log:/usr/local/redis/logs/redis-server.log
+
+ slave-2:
+  container_name: slave-2
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  command: redis-server /etc/usr/local/redis.conf
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/slave2/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/slave2/redis.log:/usr/local/redis/logs/redis-server.log
+   
+ slave-3:
+  container_name: slave-3
+  image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:5.0.9
+  command: redis-server /etc/usr/local/redis.conf
+  network_mode: "host"
+  volumes:
+   - /opt/vipkid/redis-cluster/slave3/redis.conf:/etc/usr/local/redis.conf
+   - /opt/vipkid/redis-cluster/slave3/redis.log:/usr/local/redis/logs/redis-server.log
+

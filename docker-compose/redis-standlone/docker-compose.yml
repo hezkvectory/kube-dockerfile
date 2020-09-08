@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  redis:
+    image: registry.cn-hangzhou.aliyuncs.com/hezkvectory/redis:4.0.9
+    container_name: redis
+    hostname: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - net_db
+    volumes:
+      - ./conf/redis.conf:/etc/redis/redis.conf:rw
+      - ./data:/data:rw
+    command:
+      redis-server /etc/redis/redis.conf --appendonly yes
+
+networks:
+  net_db:
+    driver: bridge
