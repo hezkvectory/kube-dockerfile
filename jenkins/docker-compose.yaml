@@ -1,0 +1,16 @@
+version: '2'
+services:
+  webjenkins:
+    container_name: webjenkins
+    privileged: true
+    user: root
+    #image: jenkins
+    image: 'jenkins/jenkins:lts'
+    restart: always
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - '3083:8080'
+      - '50001:50000'
+    volumes:
+      - ./data:/var/jenkins_home

@@ -1,0 +1,46 @@
+version: '2'
+services:
+  elasticsearch:
+    image: elasticsearch:5.6-alpine
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    restart: always
+    environment:
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m" #specific es java memory
+      - "discovery.type=single-node"
+    volumes:
+      - ./es/data:/usr/share/elasticsearch/data
+      - ./es/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    mem_limit: 512m # memory limit
+
+  kibana:
+    image: kibana:5.6
+    container_name: kibana
+    ports:
+      - 5601:5601
+    links:
+      - elasticsearch:elasticsearch
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+
+  skywalking:
+      image: weihanli/skywalking:5.0.0-GA
+      container_name: skywalking
+      ports:
+        - 10800:10800
+        - 11800:11800
+        - 12800:12800
+        - 8090:8080
+      volumes:
+        - ./skywalking/application.yml:/app/skywalking/config/application.yml
+      links:
+        - elasticsearch:elasticsearch
+      depends_on:
+        - elasticsearch
