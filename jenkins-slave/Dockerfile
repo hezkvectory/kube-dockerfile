@@ -1,0 +1,1 @@
+FROM cnych/jenkins:v1
