@@ -1,1 +1,1 @@
-jenkins/jenkins:2.204.6
+jenkins/jenkins:2.249.1-lts-slim
