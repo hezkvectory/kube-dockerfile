@@ -1,1 +1,1 @@
-FROM cnych/jenkins:v1
+FROM jenkins/jnlp-slave:alpine
