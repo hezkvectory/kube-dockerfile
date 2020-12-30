@@ -1,0 +1,16 @@
+version: '3'
+services:
+  meteor1:
+    image: meteor:v0.1
+    container_name: meteor1
+    restart: always
+
+  meteor2:
+    image: meteor:v0.1
+    container_name: meteor2
+    restart: always
+
+networks:
+  default:
+    external:
+      name: hezk

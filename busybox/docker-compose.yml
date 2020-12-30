@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  busybox:
+    image: busybox
+    command: "/bin/httpd -f " 
+
+networks:
+  default:
+    external:
+      name: hezk

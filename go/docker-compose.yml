@@ -1,0 +1,40 @@
+version: '3'
+services:
+  shell1:
+    image: shell-go:v0.0.1
+    container_name: shell1
+    restart: always
+
+  shell2:
+    image: shell-go:v0.0.1
+    container_name: shell2
+    restart: always
+
+
+  shell3:
+    image: shell-go:v0.0.1
+    container_name: shell3
+    restart: always
+
+
+  shell4:
+    image: shell-go:v0.0.1
+    container_name: shell4
+    restart: always
+
+
+  shell5:
+    image: shell-go:v0.0.1
+    container_name: shell5
+    restart: always
+
+  shell6:
+    image: shell-go:v0.0.1
+    container_name: shell6
+    restart: always
+
+
+networks:
+  default:
+    external:
+      name: hezk

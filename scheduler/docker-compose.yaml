@@ -1,0 +1,134 @@
+version: '3'
+services:
+  db:
+    image: 'mysql/mysql-server:5.7'
+    restart: always
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./mysql/config/my.cnf:/etc/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d/
+    ports:
+      - '3306:3306'
+
+  trigger1:
+    image: 'trigger:v0.8'
+    restart: always
+    container_name: trigger1
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+    ports:
+      - '8080:8080'
+
+  nginx1:
+    image: 'nginx'
+    restart: always
+    container_name: 'nginx1'
+    links:
+      - trigger1:trigger1
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+    volumes:
+      - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-conf/conf.d/:/etc/nginx/conf.d/
+      - ./nginx-conf/logs/:/var/log/nginx/
+    ports:
+      - '80:80'
+
+  exporter:
+    container_name: mysql-exporter-dev
+    image: prom/mysqld-exporter
+    environment:
+      - DATA_SOURCE_NAME=root:123456@(mysql:3306)/
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "20001:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    environment:
+      - GF_SERVER_ROOT_URL=http://10.33.1.11:20002
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "20002:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+
+  shell1:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell1
+    command: '/opt/vipkid/application/main --project=project-1 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell2:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell2
+    command: '/opt/vipkid/application/main --project=project-2 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell3:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell3
+    command: '/opt/vipkid/application/main --project=project-3 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell4:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell4
+    command: '/opt/vipkid/application/main --project=project-4 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell5:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell5
+    command: '/opt/vipkid/application/main --project=project-5 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell6:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell6
+    command: '/opt/vipkid/application/main --project=project-6 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell7:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell7
+    command: '/opt/vipkid/application/main --project=project-7 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+
+  shell8:
+    image: 'shell:v0.3'
+    restart: always
+    container_name: shell8
+    command: '/opt/vipkid/application/main --project=project-8 --profile=test'
+    extra_hosts:
+      - "api-scheduler.vipkid-qa.com.cn:10.33.1.11"
+      
+networks:
+  default:
+    external:
+      name: hezk
+

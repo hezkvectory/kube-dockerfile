@@ -1,0 +1,50 @@
+version: '3'
+services:
+  db:
+    image: 'mysql/mysql-server:5.7'
+    restart: always
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./mysql/config/my.cnf:/etc/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d/
+    ports:
+      - '3306:3306'
+
+  trigger1:
+    image: 'trigger:v0.8'
+    restart: always
+    container_name: trigger1
+
+  exporter:
+    container_name: mysql-exporter-dev
+    image: prom/mysqld-exporter
+    environment:
+      - DATA_SOURCE_NAME=root:123456@(mysql:3306)/
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - "20001:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    environment:
+      - GF_SERVER_ROOT_URL=http://10.33.1.11:20002
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "20002:3000"
+    volumes:
+      - ./grafana:/var/lib/grafana
+
+networks:
+  default:
+    external:
+      name: hezk
