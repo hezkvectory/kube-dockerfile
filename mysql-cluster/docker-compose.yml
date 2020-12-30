@@ -11,8 +11,7 @@ services:
     volumes:
       - ./master/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
       - ./master/data:/var/lib/mysql
-    networks:
-      - overlay
+
 
   mysql_slave:
     image: mysql:5.7
@@ -27,8 +26,7 @@ services:
     volumes:
       - ./slave/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
       - ./slave/data:/var/lib/mysql
-    networks:
-      - overlay
+
 
   mysql_slave2:
     image: mysql:5.7
@@ -43,9 +41,13 @@ services:
     volumes:
       - ./slave2/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
       - ./slave2/data:/var/lib/mysql
-    networks:
-      - overlay
 
+
+      
 networks:
-  overlay:
+  default:
+    external:
+      name: hezk
+
+
 
