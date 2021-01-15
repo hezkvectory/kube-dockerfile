@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: 'mysql/mysql-server:5.7'
+    restart: always
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_HOST=%
+    volumes:
+      - ./data:/var/lib/mysql
+#      - ./mysql/config/my.cnf:/etc/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d/
+    ports:
+      - '3306:3306'
+
+
+
+networks:
+  default:
+    external:
+      name: hezk
+
